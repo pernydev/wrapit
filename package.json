@@ -12,6 +12,8 @@
     "vite": "^5.0.0"
   },
   "dependencies": {
-    "@zip.js/zip.js": "^2.7.31"
+    "@msgpack/msgpack": "^3.0.0-beta2",
+    "@zip.js/zip.js": "^2.7.31",
+    "messagepack": "^1.1.12"
   }
 }

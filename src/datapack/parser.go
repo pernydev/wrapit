@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+	"wrapped/basics"
 )
 
 var handlers = map[string]func(filename string, content string, dp *DataPackage){
@@ -97,6 +98,15 @@ func channelMessageHandler(filename string, content string, dp *DataPackage) {
 	records = records[1:]
 
 	for _, record := range records {
+		// if message was sent before 2023, skip it
+		sf := basics.ParseSF(record[0])
+
+		fmt.Println(sf.Timestamp.Year())
+
+		if sf.Timestamp.Year() != 2023 {
+			continue
+		}
+
 		message := Message{
 			ID:        record[0],
 			Timestamp: record[1],
@@ -110,6 +120,7 @@ func channelMessageHandler(filename string, content string, dp *DataPackage) {
 		channel.Messages = append(channel.Messages, message)
 	}
 
+	dp.Messages = append(dp.Messages, channel)
 }
 
 func Parse(files map[string]string) *DataPackage {

@@ -3,6 +3,7 @@ import javascriptLogo from "./javascript.svg";
 import viteLogo from "/vite.svg";
 
 import * as zip from "@zip.js/zip.js";
+import { encode } from "@msgpack/msgpack";
 
 const fileselector = document.getElementById("file");
 
@@ -38,7 +39,10 @@ fileselector.addEventListener("change", async function (event) {
     fetch("main.wasm"),
     go.importObject
   );
-  
-  window.files = JSON.stringify(window.files);
+
+  let t1 = performance.now();
+  window.files = encode(window.files);
+  let t2 = performance.now();
+  console.log("Call to stringify took " + (t2 - t1) + " milliseconds.");
   go.run(result.instance);
 });
